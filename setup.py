@@ -1,8 +1,8 @@
 import os
 from setuptools import find_packages, setup
 
-with open(os.path.join(os.path.dirname(__file__), 'README.md'), encoding='utf-8') as readme:
-    README = readme.read()
+#with open(os.path.join(os.path.dirname(__file__), 'README.md'), encoding='utf-8') as readme:
+#    README = readme.read()
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
@@ -14,7 +14,7 @@ setup(
     include_package_data=True,
     license='BSD License',  # example license
     description='一个基于simpleui的菜单权限控制模块',
-    long_description=README,
+    #long_description=README,
     url='https://jtxiao.tfxing.com',
     author='jtxiao',
     author_email='yourname@example.com',

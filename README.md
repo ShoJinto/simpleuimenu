@@ -41,6 +41,25 @@ SIMPLEUI_CONFIG = {
     'dynamic': True,  # 设置是否开启动态菜单, 默认为False. 如果开启, 则会在每次用户登陆时动态展示菜单内容
 }
 ```
+# *重要提示*
+
+配置`SIMPLEUI_CONFIG`的时候必须要如下做，否在动态菜单将不生效
+
+1. 主settings文件末尾加入如下代码
+```
+# simpleUi settings 将simpleUI 的设置独立出来
+try:
+    from .simpleui_settings import *
+except ImportError:
+    pass
+```
+2. 项目根目录新增扩展配置文件`simpleui_settings.py`,将simpleui的配置信息单独配置
+```
+SIMPLEUI_CONFIG = {
+    'system_keep': False,  # 关闭系统菜单
+    'dynamic': True,  # 设置是否开启动态菜单, 默认为False. 如果开启, 则会在每次用户登陆时动态展示菜单内容
+}
+```
 
 ## 启动项目
 1. 迁移数据
@@ -69,15 +88,15 @@ MIDDLEWARE = [
 使用哪种类型数据库完全取决于你自己，本模块开发采用默认的sqlite3
 你可以在migrate完成之后通过数据库客户端工具执行一下脚本，以期快速完成测试数据的添加
 ```
-INSERT INTO simplemenu (app, name, icon, url, level, parent_id) VALUES (null, '菜单管理', 'fas fa-user-shield', 'simpleuimenu/menu/', 2, 2);
-INSERT INTO simplemenu (app, name, icon, url, level, parent_id) VALUES (null, '权限认证', 'fas fa-user-shield', null, 1, null);
-INSERT INTO simplemenu (app, name, icon, url, level, parent_id) VALUES (null, '用户', 'fa fa-user', 'auth/user/', 2, 4);
-INSERT INTO simplemenu (app, name, icon, url, level, parent_id) VALUES (null, '权限组', 'fa fa-user', 'auth/group/', 2, 4);
-INSERT INTO simplemenu (app, name, icon, url, level, parent_id) VALUES (null, '内网穿透', 'fab fa-github', 'https://www.wezoz.com', 1, null);
-INSERT INTO simplemenu (app, name, icon, url, level, parent_id) VALUES ('simpleuimenu', '多级菜单测试', 'fas fa-file', null, 1, null);
-INSERT INTO simplemenu (app, name, icon, url, level, parent_id) VALUES (null, '腾讯', 'fas fa-surprise', null, 2, 8);
-INSERT INTO simplemenu (app, name, icon, url, level, parent_id) VALUES (null, '微信', 'fas fa-user-shield', 'https://mp.weixin.qq.com', 3, 9);
-INSERT INTO simplemenu (app, name, icon, url, level, parent_id) VALUES (null, 'QQ', 'fas fa-user-shield', 'https://www.qq.com', 3, 9);
+INSERT INTO simplemenu (id, app, name, icon, url, level, parent_id) VALUES (1, null, '菜单管理', 'fas fa-user-shield', 'simpleuimenu/menu/', 2, 2);
+INSERT INTO simplemenu (id, app, name, icon, url, level, parent_id) VALUES (2, null, '权限认证', 'fas fa-user-shield', null, 1, null);
+INSERT INTO simplemenu (id, app, name, icon, url, level, parent_id) VALUES (3, null, '用户', 'fa fa-user', 'auth/user/', 2, 4);
+INSERT INTO simplemenu (id, app, name, icon, url, level, parent_id) VALUES (4, null, '权限组', 'fa fa-user', 'auth/group/', 2, 4);
+INSERT INTO simplemenu (id, app, name, icon, url, level, parent_id) VALUES (5, null, '内网穿透', 'fab fa-github', 'https://www.wezoz.com', 1, null);
+INSERT INTO simplemenu (id, app, name, icon, url, level, parent_id) VALUES (6, 'simpleuimenu', '多级菜单测试', 'fas fa-file', null, 1, null);
+INSERT INTO simplemenu (id, app, name, icon, url, level, parent_id) VALUES (7, null, '腾讯', 'fas fa-surprise', null, 2, 6);
+INSERT INTO simplemenu (id, app, name, icon, url, level, parent_id) VALUES (8, null, '微信', 'fas fa-user-shield', 'https://mp.weixin.qq.com', 3, 7);
+INSERT INTO simplemenu (id, app, name, icon, url, level, parent_id) VALUES (9, null, 'QQ', 'fas fa-user-shield', 'https://www.qq.com', 3, 7);
 ```
 
 ## 打包
@@ -85,6 +104,12 @@ INSERT INTO simplemenu (app, name, icon, url, level, parent_id) VALUES (null, 'Q
 python setup.py sdist
 ```
 打包详情自行Google
+
+## 安装
+将打包生成物，通常位于`sdist`目录下，例如：
+```
+pip install django-simpleui-menu-1.0.tar.gz
+```
 
 ## 完善代码
 1. 克隆项目到本地

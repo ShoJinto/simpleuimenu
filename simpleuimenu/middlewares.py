@@ -44,8 +44,10 @@ class AuthMenu(MiddlewareMixin):
         menus = []  # 定义列表存储最终菜单
         if request.user.is_superuser:
             menu_entity = Menu.objects.all()
-        else:
+        elif request.user.id:
             menu_entity = get_menu_permissions(request.user.id)
+        else:
+            return
         for fields in menu_entity:
             # 设置基础菜单
             menu = fields.base_menu()
@@ -64,6 +66,5 @@ class AuthMenu(MiddlewareMixin):
                     continue
 
                 menus.append(menu)
-
 
         settings.SIMPLEUI_CONFIG.update({'menus': menus})
